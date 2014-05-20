@@ -221,3 +221,8 @@ pip-log.txt
 
 .idea/
 
+#result
+
+result/
+*.log
+

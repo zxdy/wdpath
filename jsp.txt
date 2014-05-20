@@ -45715,3 +45715,6 @@ ztqdata.mdb
 用户说明.txt
 帐号
 帐户
+/data/dkcm_ssdfhwejkfs.mdb
+/_data/___dkcms_30_free.mdb
+/_data/I^(()UU()H.mdb

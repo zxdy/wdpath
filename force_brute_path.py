@@ -12,6 +12,8 @@ import socket
 import socks
 import time
 import sys
+import os
+#todo: Code refactoring,looks weird using global variables
 ###########################################################################
 #save running log in myapp.log
 logging.basicConfig(level=logging.DEBUG,
@@ -30,6 +32,8 @@ console.setFormatter(formatter)
 logging.getLogger('').addHandler(console)
 ###########################################################################
 
+global log_it, my_proxy
+global proxy_address
 class proxy:
     def __init__(self, type, proxy_file):
         self.type = type
@@ -84,17 +88,43 @@ class Sock5Proxy(proxy):
         socket.socket = socks.socksocket
 
 
+class logger:
+    def __init__(self,host):
+        self.file='result\\'+host
+        if os.path.exists('result')==False:
+            os.mkdir('result')
+        try:
+            with open(self.file, 'w') as f:
+                    f.write('Start Test.......\n')
+        except IOError as err:
+            logging.error("File Open Error:" + str(err))
+    def show_result(self):
+        logging.info("==============================")
+        logging.info("show result........\n")
+        try:
+            with open(self.file, 'r') as f:
+                logging.info(f.read())
+        except IOError as err:
+            logging.error("File Open Error:" + str(err))
+    def save(self,string):
+        try:
+            with open(self.file, 'a+') as f:
+                f.write("%s ... successful\n" % string)
+        except IOError as err:
+            logging.error("File Open Error:" + str(err))
+
+
 def set_my_proxy(proxy_type, proxy_list):
-    global proxy_addr, my_proxy
-    proxy_addr = ''
+    global  proxy_address,my_proxy
+    proxy_address = ''
     if proxy_type == 'http':
         my_proxy = HttpProxy(proxy, proxy_list)
     elif proxy_type == 'socks5':
         my_proxy = Sock5Proxy(proxy, proxy_list)
     else:
         return
-    proxy_addr = my_proxy.get_one_proxy(proxy_addr)
-    my_proxy.set_proxy(proxy_addr)
+    proxy_address = my_proxy.get_one_proxy(proxy_address)
+    my_proxy.set_proxy(proxy_address)
 
 
 def audit(host, file, proxy, threads, proxy_list):
@@ -131,8 +161,8 @@ def open_url(url):
         result = '404'
     except socket.timeout, e:
         result = 'timeout'
-        proxy_addr = my_proxy.get_one_proxy(proxy_addr)
-        my_proxy.set_proxy(proxy_addr)
+        proxy_address = my_proxy.get_one_proxy(proxy_address)
+        my_proxy.set_proxy(proxy_address)
     except Exception, e:
         #logging.error('Some error/exception occurred.\n')
         logging.error(e)
@@ -155,7 +185,8 @@ def exc_callback(excinfo):
 def print_result(request, result):
     logging.info("Testing %s ... : %s" % (request.args, result))
     if result in xrange(200,404):
-        logger('save', request.args)
+        # logger('save', request.args)
+        log_it.save(request.args)
 
 
 def read_dict(file):
@@ -169,22 +200,22 @@ def read_dict(file):
     return lines
 
 
-def logger(args, string='', file='log.txt'):  #tod:add debug level
-    try:
-        if args == 'init':
-            with open(file, 'w') as f:
-                f.write('Start Test.......\n')
-        elif args == 'result':
-            logging.info("==============================")
-            logging.info("show result........\n")
-            with open(file, 'r') as f:
-                logging.info(f.read())
-        elif args == 'save':
-            with open('log.txt', 'a+') as f:
-                f.write("%s ... successful\n" % string)
-    except IOError as err:
-        logging.error("File Open Error:" + str(err))
-    return
+# def logger(args, string='', file='log.txt'):
+#     try:
+#         if args == 'init':
+#             with open(file, 'w') as f:
+#                 f.write('Start Test.......\n')
+#         elif args == 'result':
+#             logging.info("==============================")
+#             logging.info("show result........\n")
+#             with open(file, 'r') as f:
+#                 logging.info(f.read())
+#         elif args == 'save':
+#             with open('log.txt', 'a+') as f:
+#                 f.write("%s ... successful\n" % string)
+#     except IOError as err:
+#         logging.error("File Open Error:" + str(err))
+#     return
 
 
 def main():
@@ -198,9 +229,10 @@ def main():
     if len(args) < 1:
         options.print_help()
         return
-    logger('init')
+    global log_it
+    log_it=logger(args[0].split('/')[2])
     audit(args[0], opts.dict, opts.proxy, opts.threads, opts.list)
-    logger('result')
+    log_it.show_result()
 
 
 if __name__ == '__main__':
