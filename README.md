@@ -5,9 +5,9 @@ wdpath
 
  the script read from the path dictionary to scan the website. currently i add asp,php and jsp dictionary
 
- also support to read from the http or socks5 proxy list to hide yourself, when sock5 got the timeout error, the script will 
+ also support to read from the http or socks5 proxy list to hide yourself, when sock5 got the timeout error, 
  
- switch to another proxy address automatically. if the proxy list is used up , the script will quit 
+ it will switch to another proxy address automatically. if the proxy list is used up , the script will quit 
  
  
 
