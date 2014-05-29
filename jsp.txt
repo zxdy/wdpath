@@ -45842,5 +45842,15 @@ ztqdata.mdb
 /upfile_flash.asp
 /upfile_other.asp
 /upfile_photo.asp
-database/article.asp
-eWebEditor/admin_login.asp
+/database/article.asp
+/eWebEditor/admin_login.asp
+/solr
+/examples
+/host-manager
+/downloadaction.action
+/.svn
+/.svn/entries
+/main.action
+/jmx-console/abc.jsp
+/web-console
+/main/model/newsoperation/webEditor/eWebEditor.jsp
