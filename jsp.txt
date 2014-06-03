@@ -45854,3 +45854,6 @@ ztqdata.mdb
 /jmx-console/abc.jsp
 /web-console
 /main/model/newsoperation/webEditor/eWebEditor.jsp
+/.svn
+/.svn/entries
+/.svn/text-base/

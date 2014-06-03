@@ -44338,5 +44338,12 @@
 /upfile_flash.asp
 /upfile_other.asp
 /upfile_photo.asp
-database/article.asp
-eWebEditor/admin_login.asp
+/database/article.asp
+/eWebEditor/admin_login.asp
+/phpmyadmin/scripts/setup.php
+/phpMyAdmin/scripts/setup.php
+/pHpMyAdMiN/scripts/setup.php
+/PHPMYADMIN/scripts/setup.php
+/.svn
+/.svn/entries
+/.svn/text-base/
